@@ -54,9 +54,20 @@ def has_empty_case(table):
     return False, (NaN, NaN)
 
 def test_this_case(table):
-        
+    flag, (i, j) = has_empty_case(table)
+    if flag == False:
+        return True
+    possible_cdd = possible_candidates(table, i, j)
+    if possible_cdd.size == 0:
+        return False
     
-    pass
+    for x in possible_cdd:
+        table[i, j] = x
+        if test_this_case(table):
+            return True
+        else:
+            table[i, j] = 0
+    return False
 
 if __name__=='__main__':
     mytable = read_sudoku()
@@ -68,6 +79,8 @@ if __name__=='__main__':
     print
     print 'after initialization: '
     print mytable
+    
+    answer = test_this_case(mytable)
     
     
     
